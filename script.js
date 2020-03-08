@@ -63,7 +63,6 @@ function checkURL(hash)
 }
 
 function boton(i){
-	alert(i);
 	var x;
 	var y;
 	if(i==0){
