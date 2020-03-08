@@ -5,6 +5,7 @@ $(document).ready(function(){
 	//consumirServicio()
 	llamarMatriz()
 	
+		
 	checkURL();
 	$('ul li a').click(function (e){
 
@@ -15,7 +16,7 @@ $(document).ready(function(){
 	$('#marcar').click(function (e){
 
 		llenarTriqui();
-		verificarGanador();
+		
 
 	});
 
@@ -61,6 +62,59 @@ function checkURL(hash)
 	}
 }
 
+function boton(i){
+	alert(i);
+	var x;
+	var y;
+	if(i==0){
+	x=0;
+	y=0;	
+	}
+	
+	if(i==1){
+		x=0;
+		y=1;	
+		}
+
+	if(i==2){
+	x=0;
+	y=2;	
+	}
+
+	if(i==3){
+		x=1;
+		y=0;	
+		}
+
+	if(i==4){
+		x=1;
+		y=1;	
+		}
+	if(i==5){
+		x=1;
+		y=2;	
+		}	
+
+	if(i==6){
+		x=2;
+		y=0;	
+		}
+
+	if(i==7){
+		x=2;
+		y=1;	
+		}
+
+	if(i==8){
+		x=2;
+		y=2;	
+		}
+		
+		llenarTriqui(x,y);
+
+	}
+
+
 
 function loadPage(url)
 {
@@ -87,60 +141,6 @@ function loadPage(url)
 }
 
 
-	
-function renderizar(globalUsuarios){
-
-
-	html="";
-	//console.log(jsonData)
-	html+="<table class='table'>"
-	html+="<thead>"
-	html+="<tr>"
-	html+="<th scope='col'>nombre</th>"
-	html+="<th scope='col'>apellido</th>"
-	html+="<th scope='col'>direccion</th>"
-	html+="<th scope='col'>ver</th>"
-	html+="<th scope='col'>eliminar</th>"
-	html+="</thead>"
-	html+="<tbody>"
-
-	
-	for(var i=0;i<globalUsuarios.length;i++){
-		html+="<tr><td>"
-		html+=globalUsuarios[i].nombre
-		html+="</td>"
-		
-		html+="<td>"
-		html+=globalUsuarios[i].apellido
-		html+="</td>"
-
-		html+="<td>"
-		html+=globalUsuarios[i].direccion
-		html+="</td>"
-
-
-		html+="<td>"
-		html+='<button type="button" class="btn btn-primary" id="ver"'
-		html+=' onclick="ver('
-		html+=i+')">Ver</button>'
-		html+="</td>"
-		html+="<td>"
-		html+='<button type="button" class="btn btn-primary" id="eliminar"'
-		html+=' onclick="eliminar('
-		html+=i+')">Eliminar</button>'
-		html+="</td>"
-
-		html+="</tr>"
-		//$("#tablaListado").html(html)
-	}
-	//console.log(html)
-	html+="</tbody>"
-	html+="</table>"
-	$("#tablaListado").html(html)
-
-
-	
-}
 
 function ver(i){
 
@@ -187,6 +187,59 @@ function llamarMatriz()
 		success: function(msg){
 			var html="";
 			var v=JSON.parse(msg);
+			html+="<button type='button' class='btn btn-light'  onclick='boton(0)'>"
+			html+=v[0][0]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(1)'>"
+			html+=v[0][1]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(2)'>"
+			html+=v[0][2]
+			html+="</button>"
+			html+="<br>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(3)'>"
+			html+=v[1][0]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(4)'>"
+			html+=v[1][1]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(5)'>"
+			html+=v[1][2]
+			html+="</button>"
+			html+="<br>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(6)'>"
+			html+=v[2][0]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(7)'>"
+			html+=v[2][1]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'   onclick='boton(8)'>"
+			html+=v[2][2]
+			html+="</button>"
+
+			$("#consumo").html(html)
+		
+			console.log(v)
+		},
+		error: function (data){
+			console.log(data)
+			
+		}
+	});
+
+}
+
+/*function llamarMatriz()
+{
+
+	$.ajax({
+		type: "GET",
+		data:"",
+		url: "http://localhost:8080/test/triqui",
+		contentType: "application/json; charset=utf-8",
+		success: function(msg){
+			var html="";
+			var v=JSON.parse(msg);
 			html+=v[0]
 			html+="<br>"
 			html+=v[1]
@@ -203,11 +256,12 @@ function llamarMatriz()
 		}
 	});
 
-}
+}*/
 
-function llenarTriqui()
+
+function llenarTriqui(x,y)
 {
-	console.log($("#x").val()+" "+$("#y").val());
+	//console.log($("#x").val()+" "+$("#y").val());
 
 
 	console.log(turno)
@@ -221,16 +275,40 @@ function llenarTriqui()
 	$.ajax({
 		type: "GET",
 		data:"",
-		url: "http://localhost:8080/test/llenarTriqui?x="+$("#x").val()+"&y="+$("#y").val()+"&t="+t+" ",
+		url: "http://localhost:8080/test/llenarTriqui?x="+x+"&y="+y+"&t="+t+" ",
 		contentType: "application/json; charset=utf-8",
 		success: function(msg){
 			var html="";
 			var v=JSON.parse(msg);
-			html+=v[0]
+			html+="<button type='button' class='btn btn-light'  onclick='boton(0)'>"
+			html+=v[0][0]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'  onclick='boton(1)'>"
+			html+=v[0][1]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'  onclick='boton(2)'>"
+			html+=v[0][2]
+			html+="</button>"
 			html+="<br>"
-			html+=v[1]
+			html+="<button type='button' class='btn btn-light'  onclick='boton(3)'>"
+			html+=v[1][0]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'  onclick='boton(4)'>"
+			html+=v[1][1]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'  onclick='boton(5)'>"
+			html+=v[1][2]
+			html+="</button>"
 			html+="<br>"
-			html+=v[2]
+			html+="<button type='button' class='btn btn-light'  onclick='boton(6)'>"
+			html+=v[2][0]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'  onclick='boton(7)'>"
+			html+=v[2][1]
+			html+="</button>"
+			html+="<button type='button' class='btn btn-light'  onclick='boton(8)'>"
+			html+=v[2][2]
+			html+="</button>"
 
 			$("#consumo").html(html)
 
@@ -244,7 +322,7 @@ function llenarTriqui()
 	} else{
 		turno = !turno
 	}
-
+	verificarGanador();
 }
 
 function verificarGanador(){
